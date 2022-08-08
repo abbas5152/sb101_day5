@@ -1,0 +1,63 @@
+Q1)
+What is a race condition?
+How will you find and solve race condition show with proper running code ?
+
+A1)
+Java is multithreading language so it may possible that many thread try to access same resource at same time.
+this condition is called race condition.
+like if trying to fetch data for reading from a thread and another thread is deleting that data.
+this is condition of Race condition.
+To solve this in consistency we used Synchronized keyword
+it can be use by two ways
+1) use before method type
+2) use synchronized block in critical data
+
+
+public class Chcek {
+    public static void main(String[] args) {
+        Common c1=new Common();
+        Common c2=new Common();
+        ThreadA t1=new ThreadA(c1,"Ram");
+        ThreadB t2=new ThreadB(c2,"Shyam");
+        t1.start();
+        t2.start();
+    }
+}
+
+class Common{
+   public void fun(String n){
+       System.out.println(n);
+   }
+}
+class ThreadA extends  Thread{
+    Common c1;
+    String name;
+    public  ThreadA(Common c1,String name){
+        this.c1=c1;
+        this.name=name;
+    }
+    @Override
+    public void  run(){
+
+            System.out.println("Welcome");
+            c1.fun(name);
+
+    }
+
+}
+class ThreadB extends  Thread{
+    Common c1;
+    String name;
+    public  ThreadB(Common c1,String name){
+        this.c1=c1;
+        this.name=name;
+    }
+    public  void  run(){
+
+            System.out.println("Welcome");
+            c1.fun(name);
+
+    }
+}
+ this method will generate race condition because t1 and t2 trying to access run method at same time.
+ so if we add synchronized block it will solve this problem.
